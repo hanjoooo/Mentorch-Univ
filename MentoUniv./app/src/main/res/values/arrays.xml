@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerArray1">
+        <item>[대학교]</item>
+        <item>서울대학교</item>
+        <item>연세대학교</item>
+        <item>고려대학교</item>
+        <item>한국항공대학교</item>
+    </string-array>
+    <string-array name="spinnerArray2">
+        <item>[계열]</item>
+        <item>인문</item>
+        <item>자연</item>
+        <item>공대</item>
+    </string-array>
+    <string-array name="spinnerArray3">
+        <item>[분야]</item>
+        <item>경영학과</item>
+        <item>재료학과</item>
+        <item>기계공학</item>
+        <item>소프트웨어</item>
+    </string-array>
+    <string-array name="spinnerArray4">
+        <item>[학년]</item>
+        <item>1학년</item>
+        <item>2학년</item>
+        <item>3학년</item>
+        <item>4학년</item>
+        <item>5학년</item>
+    </string-array>
+</resources>

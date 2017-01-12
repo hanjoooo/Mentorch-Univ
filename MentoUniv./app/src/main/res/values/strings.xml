@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Mento Univ.</string>
+    <string name="spinnerPrompt1">대학교를 선택해주세요</string>
+    <string name="spinnerPrompt2">계열</string>
+    <string name="spinnerPrompt3">분야</string>
+    <string name="spinnerPrompt4">학과</string>
 </resources>

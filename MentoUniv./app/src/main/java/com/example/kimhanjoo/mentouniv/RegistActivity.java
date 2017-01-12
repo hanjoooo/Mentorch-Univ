@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-public class RegistActivity extends AppCompatActivity {
 
+public class RegistActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private EditText etPasswordConfirm;
@@ -21,11 +26,17 @@ public class RegistActivity extends AppCompatActivity {
     private EditText edemail;
     private Button btnDone;
     private Button btnCancel;
-    private Spinner spUniv;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
+
 
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -34,7 +45,6 @@ public class RegistActivity extends AppCompatActivity {
         edemail = (EditText) findViewById(R.id.edemail);
         btnDone = (Button) findViewById(R.id.btnDone);
         btnCancel = (Button) findViewById(R.id.btnCancel);
-        spUniv = (Spinner)findViewById(R.id.spinner2);
 
         // 비밀번호 일치 검사
         etPasswordConfirm.addTextChangedListener(new TextWatcher() {
@@ -65,7 +75,59 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
 
-        btnDone.setOnClickListener(new View.OnClickListener() {
+        String[] optionLavala = getResources().getStringArray(R.array.spinnerArray1);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,optionLavala
+        );
+
+        Spinner obj=(Spinner)findViewById(R.id.spinner1);
+        obj.setAdapter(adapter);
+        setSpinner(R.id.spinner2,R.array.spinnerArray2,android.R.layout.simple_spinner_dropdown_item);
+        setSpinner(R.id.spinner3,R.array.spinnerArray3,android.R.layout.simple_spinner_item);
+        setSpinner(R.id.spinner4,R.array.spinnerArray4,android.R.layout.simple_spinner_item);
+
+        getSpinner(R.id.spinner1).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?>parentView,View selectedView, int position,long id){
+                printChecked(selectedView,position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView){
+
+            }
+        });
+        getSpinner(R.id.spinner2).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?>parentView,View selectedView, int position,long id){
+                printChecked(selectedView,position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView){
+
+            }
+        });
+        getSpinner(R.id.spinner3).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?>parentView,View selectedView, int position,long id){
+                printChecked(selectedView,position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView){
+
+            }
+        });
+        getSpinner(R.id.spinner4).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?>parentView,View selectedView, int position,long id){
+                printChecked(selectedView,position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView){
+
+            }
+        });
+
+
+    btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -112,14 +174,11 @@ public class RegistActivity extends AppCompatActivity {
                 }
 
                 // 대학교 선택 확인
-
-
                 Intent result = new Intent();
                 result.putExtra("ID", etEmail.getText().toString());
                 result.putExtra("password",etPassword.getText().toString());
                 result.putExtra("name",edname.getText().toString());
                 result.putExtra("email",edemail.getText().toString());
-
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
@@ -135,4 +194,62 @@ public class RegistActivity extends AppCompatActivity {
         });
 
     }
+
+
+    public void printChecked(View v, int position){
+        Spinner sp1 = (Spinner)findViewById(R.id.spinner1);
+        Spinner sp2 = (Spinner)findViewById(R.id.spinner2);
+        Spinner sp3 = (Spinner)findViewById(R.id.spinner3);
+        Spinner sp4 = (Spinner)findViewById(R.id.spinner4);
+    }
+    public void setSpinner(int objId, int optionLabelId, int listStyle){
+        setSpinner(objId,optionLabelId,-1,listStyle,null);
+    }
+    public void setSpinner(int objId,int optionLabelId, int optionId, int liststyle, String defaultVal){
+        String[] optionLavala = getResources().getStringArray(optionLabelId);
+        ArrayAdapter<String> adaptor = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,optionLavala);
+        if(liststyle>-1){
+            adaptor.setDropDownViewResource(liststyle);
+            Spinner obj = (Spinner)findViewById(objId);
+            obj.setAdapter(adaptor);
+            if(defaultVal != null){
+                String[] option = getResources().getStringArray(optionId);
+                int thei=0;
+                for(int a=0;a<option.length;a++){
+                    if(defaultVal.equals(option[a])){
+                        thei=a;
+                        break;
+                    }
+                }
+                obj.setSelection(adaptor.getPosition(optionLavala[thei]));
+            }
+            else{
+                obj.setSelection(adaptor.getPosition(defaultVal));
+            }
+        }
+    }
+    public Spinner getSpinner(int objId){
+        return (Spinner)findViewById(objId);
+    }
+    public String getSpinnerVal(int objId){
+        return getSpinneVal(objId,null);
+    }
+    private String getSpinneVal(int objId, String[] option){
+        String rtn="";
+        Spinner sp=((Spinner)findViewById(objId));
+        if(sp != null){
+            int selectedIndex=sp.getSelectedItemPosition();
+            if(option!=null){
+                rtn=""+selectedIndex;
+            }else{
+                if(option.length>selectedIndex){
+                    rtn=option[selectedIndex];
+                }
+            }
+        }
+        return rtn;
+    }
+
+
+
 }
