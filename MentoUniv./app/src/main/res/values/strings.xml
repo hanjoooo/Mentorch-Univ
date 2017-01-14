@@ -4,4 +4,11 @@
     <string name="spinnerPrompt2">계열</string>
     <string name="spinnerPrompt3">분야</string>
     <string name="spinnerPrompt4">학과</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Filter ListView Tutorial</string>
+    <string name="ranklabel">"번호 : "</string>
+    <string name="countrylabel">"문제 : "</string>
+    <string name="populationlabel">"난이도 : "</string>
 </resources>
