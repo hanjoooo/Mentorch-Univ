@@ -1,8 +1,5 @@
 package com.example.kimhanjoo.mentouniv;
 
-/**
- * Created by kimhanjoo on 17. 1. 14.
- */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

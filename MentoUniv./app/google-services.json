@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "595101962532",
+    "firebase_url": "https://mentorch-6a6e1.firebaseio.com",
+    "project_id": "mentorch-6a6e1",
+    "storage_bucket": "mentorch-6a6e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595101962532:android:3e901f3a638d4321",
+        "android_client_info": {
+          "package_name": "com.example.kimhanjoo.mentouniv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595101962532-n6cq4slmkclt77au1e8he6a2nhekcfdm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kimhanjoo.mentouniv",
+            "certificate_hash": "EBAFE1E7350964F076B00ECDAC11F4697AC9E88B"
+          }
+        },
+        {
+          "client_id": "595101962532-ktujrsifl3m00c6r7f160kqcm80m0ihh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{"current_key":"AIzaSyC6-0m08Mtq8OROn2zG7XT8i2rymnwIkBw"}],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595101962532-ktujrsifl3m00c6r7f160kqcm80m0ihh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

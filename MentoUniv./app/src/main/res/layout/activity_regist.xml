@@ -17,7 +17,7 @@ tools:context="com.example.kimhanjoo.mentouniv.RegistActivity"
     android:layout_height="wrap_content"
     android:inputType="textEmailAddress"
     android:ems="10"
-    android:hint="ID"
+    android:hint="Email(ID)"
     android:id="@+id/etEmail" />
 
 <EditText
@@ -43,14 +43,6 @@ tools:context="com.example.kimhanjoo.mentouniv.RegistActivity"
     android:ems="10"
     android:hint="이름"
     android:id="@+id/edname" />
-
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:inputType="textPassword"
-    android:ems="10"
-    android:hint="이메일 주소"
-    android:id="@+id/edemail" />
 
     <Spinner
         android:layout_width="match_parent"

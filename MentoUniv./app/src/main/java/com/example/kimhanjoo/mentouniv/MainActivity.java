@@ -1,14 +1,18 @@
 package com.example.kimhanjoo.mentouniv;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -16,12 +20,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout mlayout;
+    private FirebaseAuth mAuth;
     ListView list;
     ListViewAdapter adapter;
     EditText editsearch;
     String[] rank;
     String[] country;
     String[] population;
+
+    Button btlogout;
     ArrayList<WorldPopulation> arraylist = new ArrayList<WorldPopulation>();
 
     @Override
@@ -44,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Locate the ListView in listview_main.xml
         list = (ListView) findViewById(R.id.listview);
+
+        btlogout = (Button) findViewById(R.id.logout);
+        mAuth = FirebaseAuth.getInstance();
 
         for (int i = 0; i < rank.length; i++)
         {
@@ -84,7 +94,20 @@ public class MainActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
             }
         });
+
+        btlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     // Not using options menu in this tutorial
+
+    private void signOut() {
+        mAuth.signOut();
+    }
 }

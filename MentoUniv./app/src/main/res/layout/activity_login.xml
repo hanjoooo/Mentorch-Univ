@@ -23,69 +23,63 @@ tools:context="com.example.kimhanjoo.mentouniv.LoginActivity">
         android:layout_centerHorizontal="true" />
 
     <EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:inputType="textPersonName"
-    android:text="ID"
-    android:ems="10"
-    android:id="@+id/ID"
-    android:textSize="30sp"
-    android:layout_marginBottom="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Email"
+        android:ems="10"
+        android:id="@+id/ID"
+        android:textSize="25sp"
+        android:layout_marginBottom="58dp"
         android:layout_above="@+id/Regist"
         android:layout_centerHorizontal="true" />
 
     <EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:inputType="textPassword"
-    android:ems="10"
-    android:id="@+id/Password"
-    android:text="PASSWORD"
-    android:textSize="36sp"
-    android:layout_marginTop="162dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/Password"
+        android:hint="Password"
+        android:textSize="25sp"
+        android:layout_marginTop="162dp"
         android:layout_below="@+id/Title"
         android:layout_alignStart="@+id/ID"
         android:layout_alignEnd="@+id/ID" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/kakao"
-        android:id="@+id/kakaoLogin"
-        android:layout_marginTop="46dp"
-        android:layout_below="@+id/Login"
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_login_button"
+        android:layout_width="220dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="83dp"
+        android:layout_below="@+id/Regist"
         android:layout_centerHorizontal="true" />
-
-    <ImageButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:srcCompat="@drawable/fb"
-        android:id="@+id/facebookLogin"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/kakaoLogin"
-        android:layout_alignStart="@+id/kakaoLogin" />
-
-    <Button
-    android:text=" Login "
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/Login"
-    android:textSize="35sp"
-    android:textStyle="bold|italic"
-        android:layout_alignBaseline="@+id/Regist"
-        android:layout_alignBottom="@+id/Regist"
-        android:layout_alignStart="@+id/kakaoLogin" />
 
     <Button
         android:text="회원가입"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:textSize="20sp"
         android:id="@+id/Regist"
         android:textStyle="bold|italic"
-        android:layout_marginTop="31dp"
+        android:textColor="#0288D1"
+        android:layout_marginStart="9dp"
         android:layout_below="@+id/Password"
-        android:layout_alignEnd="@+id/facebookLogin" />
+        android:layout_toEndOf="@+id/Login"
+        android:layout_marginTop="42dp" />
+
+    <Button
+        android:text=" L o g i n "
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/Login"
+        android:textSize="26sp"
+        android:textStyle="bold|italic"
+        android:textColor="#0288D1"
+        android:layout_alignTop="@+id/Regist"
+        android:layout_alignStart="@+id/Password" />
 
 
 </RelativeLayout>
