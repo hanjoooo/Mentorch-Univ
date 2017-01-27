@@ -117,6 +117,7 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 signOut();
+                finish();
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             }

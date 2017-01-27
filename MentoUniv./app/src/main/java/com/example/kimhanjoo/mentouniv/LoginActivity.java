@@ -174,6 +174,7 @@ public class LoginActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else if(task.isSuccessful()) {
+                            finish();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
