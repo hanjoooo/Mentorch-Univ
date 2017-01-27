@@ -45,7 +45,7 @@ import java.util.Arrays;
 
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     Button login;
     Button regist;
@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAuth.signOut();
                 Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
                 startActivity(intent);
             }
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateForm()) {
             return;
         }
-
+        showProgressDialog();
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -176,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
+                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });

@@ -32,7 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RegistActivity extends AppCompatActivity {
+public class RegistActivity extends BaseActivity {
     private EditText etEmail;
     private EditText etPassword;
     private EditText etPasswordConfirm;
@@ -40,6 +40,7 @@ public class RegistActivity extends AppCompatActivity {
     private Button btnDone;
     private Button btnCancel;
     private FirebaseAuth mAuth;
+
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EmailPassword";
@@ -47,6 +48,13 @@ public class RegistActivity extends AppCompatActivity {
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
+    DatabaseReference mchildRef;
+    DatabaseReference mchild1Ref;
+    DatabaseReference mchild2Ref;
+    DatabaseReference mchild3Ref;
+    DatabaseReference mchild4Ref;
+    DatabaseReference mchild5Ref;
+    DatabaseReference mchild6Ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,10 @@ public class RegistActivity extends AppCompatActivity {
         btnDone = (Button) findViewById(R.id.btnDone);
         btnCancel = (Button) findViewById(R.id.btnCancel);
         mAuth = FirebaseAuth.getInstance();
-
+        final Spinner spinner1 = (Spinner)findViewById(R.id.spinner1);
+        final Spinner spinner2 = (Spinner)findViewById(R.id.spinner2);
+        final Spinner spinner3 = (Spinner)findViewById(R.id.spinner3);
+        final Spinner spinner4 = (Spinner)findViewById(R.id.spinner4);
         // 비밀번호 일치 검사
         etPasswordConfirm.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,7 +106,7 @@ public class RegistActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,optionLavala
         );
 
-        Spinner obj=(Spinner)findViewById(R.id.spinner1);
+        final Spinner obj=(Spinner)findViewById(R.id.spinner1);
         obj.setAdapter(adapter);
         setSpinner(R.id.spinner2,R.array.spinnerArray2,android.R.layout.simple_spinner_dropdown_item);
         setSpinner(R.id.spinner3,R.array.spinnerArray3,android.R.layout.simple_spinner_item);
@@ -143,12 +154,95 @@ public class RegistActivity extends AppCompatActivity {
         });
 
 
-
-
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // [START_EXCLUDE]
+                updateUI(user);
+                // [END_EXCLUDE]
+            }
+        };
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 이메일 입력 확인
+                if( etEmail.getText().toString().length() == 0 ) {
+                    Toast.makeText(RegistActivity.this, "이메일(아이디) 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etEmail.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 입력 확인
+                if( etPassword.getText().toString().length() == 0 ) {
+                    Toast.makeText(RegistActivity.this, "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etPassword.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 확인 입력 확인
+                if( etPasswordConfirm.getText().toString().length() == 0 ) {
+                    Toast.makeText(RegistActivity.this, "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etPasswordConfirm.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 일치 확인
+                if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
+                    Toast.makeText(RegistActivity.this, "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+                    etPassword.setText("");
+                    etPasswordConfirm.setText("");
+                    etPassword.requestFocus();
+                    return;
+                }
+                // 이름 입력 확인
+                if( edname.getText().toString().length() == 0 ) {
+                    Toast.makeText(RegistActivity.this, "이름 입력하세요!", Toast.LENGTH_SHORT).show();
+                    edname.requestFocus();
+                    return;
+                }
+
+
+                // 대학교 선택 확인
+                String univers = spinner1.getSelectedItem().toString();
+                String rpduf = spinner2.getSelectedItem().toString();
+                String gkrrhk = spinner3.getSelectedItem().toString();
+                String grade = spinner4.getSelectedItem().toString();
+
+                Intent result = new Intent();
+                result.putExtra("ID", etEmail.getText().toString());
+                result.putExtra("password",etPassword.getText().toString());
+                result.putExtra("name",edname.getText().toString());
+
+
+                createAccount(etEmail.getText().toString(),etPassword.getText().toString());
+
+                // [END create_user_with_email]
+                // 자신을 호출한 Activity로 데이터를 보낸다.
+                if(x==1) {
+                    mchild1Ref.setValue(etEmail.getText().toString());
+                    mchild2Ref.setValue(edname.getText().toString());
+                    mchild3Ref.setValue(univers);
+                    mchild4Ref.setValue(rpduf);
+                    mchild5Ref.setValue(gkrrhk);
+                    mchild6Ref.setValue(grade);
+                    setResult(RESULT_OK, result);
+                    finish();
+                }
             }
         });
 
@@ -212,18 +306,11 @@ public class RegistActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         final int[] can = {1};
+        mAuth.addAuthStateListener(mAuthListener);
+
         mConditionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(x==1){
-                    mAuthListener = new FirebaseAuth.AuthStateListener(){
-                        @Override
-                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            mConditionRef.setValue(user.getUid());
-                        }
-                    };
-                }
 
             }
 
@@ -232,98 +319,41 @@ public class RegistActivity extends AppCompatActivity {
 
             }
         });
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                // 이메일 입력 확인
-                if( etEmail.getText().toString().length() == 0 ) {
-                    Toast.makeText(RegistActivity.this, "이메일(아이디) 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etEmail.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 입력 확인
-                if( etPassword.getText().toString().length() == 0 ) {
-                    Toast.makeText(RegistActivity.this, "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etPassword.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 확인 입력 확인
-                if( etPasswordConfirm.getText().toString().length() == 0 ) {
-                    Toast.makeText(RegistActivity.this, "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etPasswordConfirm.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 일치 확인
-                if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
-                    Toast.makeText(RegistActivity.this, "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
-                    etPassword.setText("");
-                    etPasswordConfirm.setText("");
-                    etPassword.requestFocus();
-                    return;
-                }
-                // 이름 입력 확인
-                if( edname.getText().toString().length() == 0 ) {
-                    Toast.makeText(RegistActivity.this, "이름 입력하세요!", Toast.LENGTH_SHORT).show();
-                    edname.requestFocus();
-                    return;
-                }
-
-                if(can[0]==0){
-                    Toast.makeText(RegistActivity.this, "이미 있는 아이디입니!", Toast.LENGTH_SHORT).show();
-                    etEmail.requestFocus();
-                    return;
-                }
-
-
-                // 대학교 선택 확인
-                Intent result = new Intent();
-                result.putExtra("ID", etEmail.getText().toString());
-                result.putExtra("password",etPassword.getText().toString());
-                result.putExtra("name",edname.getText().toString());
-
-
-                createAccount(etEmail.getText().toString(),etPassword.getText().toString());
-
-                // [END create_user_with_email]
-                // 자신을 호출한 Activity로 데이터를 보낸다.
-                if(x==1) {
-                    setResult(RESULT_OK, result);
-                    finish();
-                }
-            }
-        });
 
     }
-
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             x=0;
             return;
         }
-
+        showProgressDialog();
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegistActivity.this, R.string.auth_failed,
+                            Toast.makeText(RegistActivity.this, "회원가입에 실패하셨습니다.",
                                     Toast.LENGTH_SHORT).show();
                             x=0;
                         }
-                        else if(task.isSuccessful()){
+                        else{
+                            Toast.makeText(RegistActivity.this,"회원가입에 성공했습니다.(가입버튼 눌러주세요) ",Toast.LENGTH_LONG).show();
                             x=1;
                         }
+                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
@@ -352,6 +382,21 @@ public class RegistActivity extends AppCompatActivity {
     }
 
 
+    private void updateUI(FirebaseUser user) {
+        hideProgressDialog();
+        if (user != null) {
+            mchildRef = mConditionRef.child(user.getUid());
+            mchild1Ref = mchildRef.child("이메일");
+            mchild2Ref = mchildRef.child("이름");
+            mchild3Ref = mchildRef.child("대학교");
+            mchild4Ref = mchildRef.child("계열");
+            mchild5Ref = mchildRef.child("분야");
+            mchild6Ref = mchildRef.child("학년");
 
 
+
+        } else {
+
+        }
+    }
 }

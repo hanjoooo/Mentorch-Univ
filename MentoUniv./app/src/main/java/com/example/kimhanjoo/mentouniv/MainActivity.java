@@ -2,25 +2,30 @@ package com.example.kimhanjoo.mentouniv;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity{
 
     private RelativeLayout mlayout;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     ListView list;
     ListViewAdapter adapter;
     EditText editsearch;
@@ -28,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
     String[] country;
     String[] population;
 
+    Button btprofile;
     Button btlogout;
+
     ArrayList<WorldPopulation> arraylist = new ArrayList<WorldPopulation>();
 
     @Override
@@ -53,7 +60,10 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.listview);
 
         btlogout = (Button) findViewById(R.id.logout);
+        btprofile=(Button)findViewById(R.id.profile);
         mAuth = FirebaseAuth.getInstance();
+
+
 
         for (int i = 0; i < rank.length; i++)
         {
@@ -95,6 +105,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),profileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,11 +121,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     // Not using options menu in this tutorial
 
     private void signOut() {
+        showProgressDialog();
         mAuth.signOut();
+        hideProgressDialog();
     }
 }
