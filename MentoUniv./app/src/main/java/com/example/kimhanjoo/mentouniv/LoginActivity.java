@@ -46,19 +46,20 @@ import java.util.Arrays;
 
 
 public class LoginActivity extends BaseActivity {
-
-    Button login;
-    Button regist;
-
-    EditText edId;
-    EditText edpassword;
     private RelativeLayout mlayout;
     private CallbackManager callbackManager;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("users");
+    DatabaseReference mchildRef;
 
+    Button login;
+    Button regist;
+
+    EditText edId;
+    EditText edpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +107,12 @@ public class LoginActivity extends BaseActivity {
 
                     }
                 });
-
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender,birthday");
                 graphRequest.setParameters(parameters);
                 graphRequest.executeAsync();
+
+
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
 
@@ -238,6 +240,8 @@ public class LoginActivity extends BaseActivity {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        }
+                        else{
                         }
 
                         // ...

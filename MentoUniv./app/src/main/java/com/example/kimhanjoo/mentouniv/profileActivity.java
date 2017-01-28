@@ -31,6 +31,8 @@ public class profileActivity extends AppCompatActivity {
     TextView name;
     TextView universe;
     TextView grade;
+    TextView rpduf;
+    TextView gkrrhk;
     Button home;
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
@@ -49,7 +51,8 @@ public class profileActivity extends AppCompatActivity {
         grade = (TextView)findViewById(R.id.grade);
         mAuth = FirebaseAuth.getInstance();
         home =(Button)findViewById(R.id.home);
-
+        rpduf = (TextView)findViewById(R.id.rpduf);
+        gkrrhk = (TextView)findViewById(R.id.gkrrhk);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -90,6 +93,25 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
                 });
+                mchild4Ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String txt = dataSnapshot.getValue(String.class);
+                        rpduf.setText(txt);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+                mchild5Ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String txt = dataSnapshot.getValue(String.class);
+                        gkrrhk.setText(txt);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
                 mchild6Ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,6 +127,7 @@ public class profileActivity extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }

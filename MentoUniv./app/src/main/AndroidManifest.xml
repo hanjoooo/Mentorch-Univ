@@ -47,7 +47,16 @@
             android:value="@string/khj5913" />
 
         <activity android:name=".EmailPasswordActivity" />
-        <activity android:name=".profileActivity"></activity>
+        <activity android:name=".profileActivity" />
+        <activity android:name=".ProblemActivity"></activity>
+
+        <service
+            android:name=".MyDownloadService"
+            android:exported="false"/>
+
+        <service
+            android:name=".MyUploadService"
+            android:exported="false" />
     </application>
 
 </manifest>

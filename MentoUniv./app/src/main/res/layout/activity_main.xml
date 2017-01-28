@@ -55,15 +55,15 @@
         android:layout_marginStart="10dp"
         android:background="#039BE5"
         android:textColor="@color/colorAccent"
-        android:layout_alignBaseline="@+id/button4"
-        android:layout_alignBottom="@+id/button4"
-        android:layout_toEndOf="@+id/button4" />
+        android:layout_alignBaseline="@+id/problem"
+        android:layout_alignBottom="@+id/problem"
+        android:layout_toEndOf="@+id/problem" />
 
     <Button
         android:text="질문"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button4"
+        android:id="@+id/problem"
         android:background="#039BE5"
         android:textColor="@color/colorAccent"
         android:layout_alignBaseline="@+id/button3"

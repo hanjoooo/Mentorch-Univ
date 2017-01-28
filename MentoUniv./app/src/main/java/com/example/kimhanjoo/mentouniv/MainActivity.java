@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity{
 
     Button btprofile;
     Button btlogout;
+    Button btproblem;
 
     ArrayList<WorldPopulation> arraylist = new ArrayList<WorldPopulation>();
 
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity{
 
         btlogout = (Button) findViewById(R.id.logout);
         btprofile=(Button)findViewById(R.id.profile);
+        btproblem = (Button)findViewById(R.id.problem);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -104,7 +106,13 @@ public class MainActivity extends BaseActivity{
                 // TODO Auto-generated method stub
             }
         });
-
+        btproblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ProblemActivity.class);
+                startActivity(intent);
+            }
+        });
         btprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
