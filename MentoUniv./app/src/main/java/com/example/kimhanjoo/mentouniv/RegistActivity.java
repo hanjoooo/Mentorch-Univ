@@ -46,9 +46,9 @@ public class RegistActivity extends BaseActivity {
     private static final String TAG = "EmailPassword";
     private int x=0;
 
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+    DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
-    DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
     DatabaseReference mchild2Ref;
     DatabaseReference mchild3Ref;

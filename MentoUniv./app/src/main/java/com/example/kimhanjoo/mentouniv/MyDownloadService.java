@@ -143,7 +143,7 @@ public class MyDownloadService extends MyBaseTaskService {
         dismissProgressNotification();
 
         // Make Intent to MainActivity
-        Intent intent = new Intent(this, MainActivity.class)
+        Intent intent = new Intent(this, ProblemActivity.class)
                 .putExtra(EXTRA_DOWNLOAD_PATH, downloadPath)
                 .putExtra(EXTRA_BYTES_DOWNLOADED, bytesDownloaded)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

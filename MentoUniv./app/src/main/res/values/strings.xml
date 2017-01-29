@@ -44,19 +44,19 @@
 
 
 
-    <string name="camera_button_text">Upload</string>
+    <string name="camera_button_text">업로드</string>
     <string name="sign_in_prompt">Sign In to begin</string>
-    <string name="take_photo_prompt">Upload a Photo</string>
-    <string name="download">Download</string>
+    <string name="take_photo_prompt">문제를 올려주세요</string>
+    <string name="download">다운로드</string>
     <string name="sign_in_anonymously">Sign In</string>
     <string name="rationale_storage">This sample reads images from your camera to demonstrate uploading.</string>
-    <string name="label_link">Link to Uploaded File</string>
-    <string name="label_download">Download File</string>
+    <string name="label_link">업로드한 사진 링크</string>
+    <string name="label_download">파일 다운로드</string>
     <string name="log_out">Log out</string>
     <string name="success">Success</string>
 
-    <string name="progress_downloading">Downloading…</string>
-    <string name="progress_uploading">Uploading…</string>
+    <string name="progress_downloading">다운로드중…</string>
+    <string name="progress_uploading">업로드중…</string>
     <string name="progress_auth">Signing In…</string>
 
     <string name="upload_success">Upload finished</string>

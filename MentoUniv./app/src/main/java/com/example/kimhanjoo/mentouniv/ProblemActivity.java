@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,15 +16,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedInputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Locale;
 public class ProblemActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +49,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private Uri mDownloadUrl = null;
     private Uri mFileUri = null;
 
+    ImageView image;
+    DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("photos");
+    DatabaseReference mchild1Ref;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +64,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        image = (ImageView)findViewById(R.id.imageView);
+
         // Click listeners
         findViewById(R.id.button_camera).setOnClickListener(this);
-        findViewById(R.id.button_download).setOnClickListener(this);
+
 
         // Restore instance state
         if (savedInstanceState != null) {
@@ -90,6 +108,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         };
+
     }
 
     @Override
@@ -112,6 +131,8 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.registerReceiver(mBroadcastReceiver, MyDownloadService.getIntentFilter());
         manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
+
+
     }
 
     @Override
@@ -164,21 +185,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
 
         // Show loading spinner
         showProgressDialog(getString(R.string.progress_uploading));
+
+
+
+
     }
 
-    private void beginDownload() {
-        // Get path
-        String path = "photos/" + mFileUri.getLastPathSegment();
 
-        // Kick off MyDownloadService to download the file
-        Intent intent = new Intent(this, MyDownloadService.class)
-                .putExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH, path)
-                .setAction(MyDownloadService.ACTION_DOWNLOAD);
-        startService(intent);
-
-        // Show loading spinner
-        showProgressDialog(getString(R.string.progress_downloading));
-    }
 
     private void launchCamera() {
         Log.d(TAG, "launchCamera");
@@ -207,10 +220,15 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         // Download URL and Download button
+
         if (mDownloadUrl != null) {
             ((TextView) findViewById(R.id.picture_download_uri))
                     .setText(mDownloadUrl.toString());
+            image.setImageURI(mDownloadUrl);
+            mchildRef = mConditionRef.child(user.getUid());
+            mchildRef.setValue(mDownloadUrl.toString());
             findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
+
         } else {
             ((TextView) findViewById(R.id.picture_download_uri))
                     .setText(null);
@@ -254,6 +272,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         if (i == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut();
             updateUI(null);
+            finish();
+            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -265,8 +286,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         int i = v.getId();
         if (i == R.id.button_camera) {
             launchCamera();
-        } else if (i == R.id.button_download) {
-            beginDownload();
         }
     }
 }

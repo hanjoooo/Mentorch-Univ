@@ -46,7 +46,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/khj5913" />
 
-        <activity android:name=".EmailPasswordActivity" />
         <activity android:name=".profileActivity" />
         <activity android:name=".ProblemActivity"></activity>
 
