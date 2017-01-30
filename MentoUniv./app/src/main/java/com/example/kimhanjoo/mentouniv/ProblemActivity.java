@@ -21,6 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -33,7 +39,7 @@ import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
-public class ProblemActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProblemActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "Storage#MainActivity";
 
@@ -49,6 +55,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private Uri mDownloadUrl = null;
     private Uri mFileUri = null;
 
+    private GoogleApiClient mGoogleApiClient;
     ImageView image;
     DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("photos");
@@ -77,6 +84,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         }
         onNewIntent(getIntent());
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
         // Local broadcast receiver
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -270,8 +285,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            updateUI(null);
+            signOut();
             finish();
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
@@ -287,5 +301,22 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         if (i == R.id.button_camera) {
             launchCamera();
         }
+    }
+    private void signOut() {
+        mAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+                    }
+                });
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -15,17 +15,24 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private RelativeLayout mlayout;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
     ListView list;
     ListViewAdapter adapter;
     EditText editsearch;
@@ -64,7 +71,14 @@ public class MainActivity extends BaseActivity{
         btprofile=(Button)findViewById(R.id.profile);
         btproblem = (Button)findViewById(R.id.problem);
         mAuth = FirebaseAuth.getInstance();
-
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
 
         for (int i = 0; i < rank.length; i++)
@@ -139,6 +153,21 @@ public class MainActivity extends BaseActivity{
     private void signOut() {
         showProgressDialog();
         mAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+                    }
+                });
         hideProgressDialog();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+
     }
 }
