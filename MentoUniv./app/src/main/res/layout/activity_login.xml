@@ -48,15 +48,6 @@ tools:context="com.example.kimhanjoo.mentouniv.LoginActivity">
         android:layout_alignEnd="@+id/ID" />
 
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_login_button"
-        android:layout_width="220dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="83dp"
-        android:layout_below="@+id/Regist"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:text="회원가입"
         android:layout_width="wrap_content"
@@ -64,7 +55,8 @@ tools:context="com.example.kimhanjoo.mentouniv.LoginActivity">
         android:textSize="20sp"
         android:id="@+id/Regist"
         android:textStyle="bold|italic"
-        android:textColor="#0288D1"
+        android:background="@color/grey_100"
+        android:textColor="@color/colorAccent"
         android:layout_marginStart="9dp"
         android:layout_below="@+id/Password"
         android:layout_toEndOf="@+id/Login"
@@ -77,9 +69,19 @@ tools:context="com.example.kimhanjoo.mentouniv.LoginActivity">
         android:id="@+id/Login"
         android:textSize="26sp"
         android:textStyle="bold|italic"
+        android:background="@color/grey_100"
         android:textColor="#0288D1"
         android:layout_alignTop="@+id/Regist"
         android:layout_alignStart="@+id/Password" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/Regist"
+        android:layout_alignStart="@+id/Login" />
 
 
 </RelativeLayout>

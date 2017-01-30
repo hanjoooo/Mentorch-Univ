@@ -47,15 +47,16 @@
             android:value="@string/khj5913" />
 
         <activity android:name=".profileActivity" />
-        <activity android:name=".ProblemActivity"></activity>
+        <activity android:name=".ProblemActivity" />
 
         <service
             android:name=".MyDownloadService"
-            android:exported="false"/>
-
+            android:exported="false" />
         <service
             android:name=".MyUploadService"
             android:exported="false" />
+
+        <activity android:name=".firstRegist"></activity>
     </application>
 
 </manifest>
