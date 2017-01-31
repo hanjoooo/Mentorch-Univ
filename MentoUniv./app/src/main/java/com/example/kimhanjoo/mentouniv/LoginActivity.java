@@ -122,6 +122,12 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                                 Intent intent = new Intent(getApplicationContext(),firstRegist.class);
                                 startActivity(intent);
                             }
+                            else
+                            {
+                                finish();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {}
@@ -197,11 +203,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else if(task.isSuccessful()) {
-                            finish();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
+
                         hideProgressDialog();
                         // [END_EXCLUDE]
                     }
@@ -241,16 +243,10 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "인증실패",
                                     Toast.LENGTH_SHORT).show();
                         }
 
-
-
-                        finish();
-                        Intent intent= new Intent(getApplicationContext(),MainActivity.class);
-                        startActivity(intent);
-                        // [START_EXCLUDE]
                         hideProgressDialog();
                         // [END_EXCLUDE]
                     }

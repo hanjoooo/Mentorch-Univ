@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -27,21 +28,24 @@ public class MyUploadService extends MyBaseTaskService {
     public static final String ACTION_UPLOAD = "action_upload";
     public static final String UPLOAD_COMPLETED = "upload_completed";
     public static final String UPLOAD_ERROR = "upload_error";
-
+    private FirebaseAuth mAuth;
     /** Intent Extras **/
     public static final String EXTRA_FILE_URI = "extra_file_uri";
     public static final String EXTRA_DOWNLOAD_URL = "extra_download_url";
 
     // [START declare_ref]
+    private StorageReference rStorageRef;
     private StorageReference mStorageRef;
     // [END declare_ref]
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mAuth = FirebaseAuth.getInstance();
         // [START get_storage_ref]
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        rStorageRef = FirebaseStorage.getInstance().getReference();
+        mStorageRef = rStorageRef.child(mAuth.getCurrentUser().getUid().toString());
+
         // [END get_storage_ref]
     }
 

@@ -21,6 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -44,7 +47,6 @@ public class RegistActivity extends BaseActivity {
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EmailPassword";
-    private int x=0;
 
 
     DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -61,7 +63,6 @@ public class RegistActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
 
-
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
@@ -69,10 +70,7 @@ public class RegistActivity extends BaseActivity {
         btnDone = (Button) findViewById(R.id.btnDone);
         btnCancel = (Button) findViewById(R.id.btnCancel);
         mAuth = FirebaseAuth.getInstance();
-        final Spinner spinner1 = (Spinner)findViewById(R.id.spinner1);
-        final Spinner spinner2 = (Spinner)findViewById(R.id.spinner2);
-        final Spinner spinner3 = (Spinner)findViewById(R.id.spinner3);
-        final Spinner spinner4 = (Spinner)findViewById(R.id.spinner4);
+
         // 비밀번호 일치 검사
         etPasswordConfirm.addTextChangedListener(new TextWatcher() {
             @Override
@@ -218,10 +216,7 @@ public class RegistActivity extends BaseActivity {
 
 
                 // 대학교 선택 확인
-                String univers = spinner1.getSelectedItem().toString();
-                String rpduf = spinner2.getSelectedItem().toString();
-                String gkrrhk = spinner3.getSelectedItem().toString();
-                String grade = spinner4.getSelectedItem().toString();
+
 
                 Intent result = new Intent();
                 result.putExtra("ID", etEmail.getText().toString());
@@ -233,16 +228,7 @@ public class RegistActivity extends BaseActivity {
 
                 // [END create_user_with_email]
                 // 자신을 호출한 Activity로 데이터를 보낸다.
-                if(x==1) {
-                    mchild1Ref.setValue(etEmail.getText().toString());
-                    mchild2Ref.setValue(edname.getText().toString());
-                    mchild3Ref.setValue(univers);
-                    mchild4Ref.setValue(rpduf);
-                    mchild5Ref.setValue(gkrrhk);
-                    mchild6Ref.setValue(grade);
-                    setResult(RESULT_OK, result);
-                    finish();
-                }
+
             }
         });
 
@@ -331,7 +317,6 @@ public class RegistActivity extends BaseActivity {
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
-            x=0;
             return;
         }
         showProgressDialog();
@@ -345,13 +330,27 @@ public class RegistActivity extends BaseActivity {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegistActivity.this, "회원가입에 실패하셨습니다.",
+                            Toast.makeText(RegistActivity.this, "회원가입 실패",
                                     Toast.LENGTH_SHORT).show();
-                            x=0;
                         }
                         else{
-                            Toast.makeText(RegistActivity.this,"회원가입에 성공했습니다.(가입버튼 눌러주세요) ",Toast.LENGTH_LONG).show();
-                            x=1;
+                            Toast.makeText(RegistActivity.this,"회원가입 성공",Toast.LENGTH_LONG).show();
+                            final Spinner spinner1 = (Spinner)findViewById(R.id.spinner1);
+                            final Spinner spinner2 = (Spinner)findViewById(R.id.spinner2);
+                            final Spinner spinner3 = (Spinner)findViewById(R.id.spinner3);
+                            final Spinner spinner4 = (Spinner)findViewById(R.id.spinner4);
+                            String univers = spinner1.getSelectedItem().toString();
+                            String rpduf = spinner2.getSelectedItem().toString();
+                            String gkrrhk = spinner3.getSelectedItem().toString();
+                            String grade = spinner4.getSelectedItem().toString();
+                            mchild1Ref.setValue(etEmail.getText().toString());
+                            mchild2Ref.setValue(edname.getText().toString());
+                            mchild3Ref.setValue(univers);
+                            mchild4Ref.setValue(rpduf);
+                            mchild5Ref.setValue(gkrrhk);
+                            mchild6Ref.setValue(grade);
+                            signOut();
+                            finish();
                         }
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -398,5 +397,10 @@ public class RegistActivity extends BaseActivity {
         } else {
 
         }
+    }
+    private void signOut() {
+        showProgressDialog();
+        mAuth.signOut();
+        hideProgressDialog();
     }
 }

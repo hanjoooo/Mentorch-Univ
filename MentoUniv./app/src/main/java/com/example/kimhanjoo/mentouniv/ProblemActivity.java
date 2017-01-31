@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -39,6 +40,10 @@ import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ProblemActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "Storage#MainActivity";
@@ -57,12 +62,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
 
     private GoogleApiClient mGoogleApiClient;
     ImageView image;
-    DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+
+    long now = System.currentTimeMillis();
+    SimpleDateFormat sdfNow;
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("photos");
+    DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,9 +196,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         mFileUri = fileUri;
 
         // Clear the last download, if any
-        updateUI(mAuth.getCurrentUser());
-        mDownloadUrl = null;
 
+        mDownloadUrl = null;
+        updateUI(mAuth.getCurrentUser());
         // Start MyUploadService to upload the file, so that the file is uploaded
         // even if this Activity is killed or put in the background
         startService(new Intent(this, MyUploadService.class)
@@ -239,9 +246,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         if (mDownloadUrl != null) {
             ((TextView) findViewById(R.id.picture_download_uri))
                     .setText(mDownloadUrl.toString());
-            image.setImageURI(mDownloadUrl);
+
+
             mchildRef = mConditionRef.child(user.getUid());
-            mchildRef.setValue(mDownloadUrl.toString());
+            sdfNow = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+            String time = sdfNow.format(new Date(System.currentTimeMillis()));
+            mchild1Ref = mchildRef.child(time);
+            mchild1Ref.setValue(mDownloadUrl.toString());
             findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
 
         } else {
