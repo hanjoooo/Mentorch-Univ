@@ -216,8 +216,12 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                    // String name_Str = getImageNameToUri(data.getData());
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap 	= MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    int height=image_bitmap.getHeight();
+                    int width=image_bitmap.getWidth();
+                    image_bitmap = Bitmap.createScaledBitmap(image_bitmap, 400, height/(width/400), true);
                     //배치해놓은 ImageView에 set
                     image.setImageBitmap(image_bitmap);
+
 
                     //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
                 } catch (FileNotFoundException e) {
@@ -231,8 +235,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                     e.printStackTrace();
                 }
             }
-
+            if(mFileUri!=null) {
+                findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
+            }
+            else {
+                findViewById(R.id.layout_download).setVisibility(View.GONE);
+            }
         }
+
     }
 
 
@@ -279,7 +289,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_FROM_ALBUM);
-        findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
+
     }
 
 
@@ -378,6 +388,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             if( edProTitle.getText().toString().length() == 0 ) {
                 Toast.makeText(ProblemActivity.this, "문제제목을 입력하세요!", Toast.LENGTH_SHORT).show();
                 edProTitle.requestFocus();
+                return;
+            }
+            if(mFileUri==null && edProMain.getText().toString().length()==0){
+                Toast.makeText(ProblemActivity.this, "문제사진 또는 문제내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
                 return;
             }
             launchCamera();

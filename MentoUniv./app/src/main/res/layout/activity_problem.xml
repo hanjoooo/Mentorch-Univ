@@ -58,14 +58,6 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
                 android:ems="10"
                 android:id="@+id/edpromain" />
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/default2"
-                android:layout_marginBottom="@dimen/margin_1"
-                android:text="@string/take_photo_prompt" />
-
             <Button
                 android:id="@+id/button_camera"
                 android:layout_width="@dimen/standard_field_width"
@@ -82,7 +74,18 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="visible"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+                android:id="@+id/imageView"
+                android:scaleType="center"
+                android:adjustViewBounds="false"
+                android:cropToPadding="false"
+                android:layout_weight="1.21" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"
@@ -98,15 +101,6 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 tools:text="http://www.example.com/?id=UAOJNVKBMQUGPYZKCQZRZKJEXRCRXMRSMFBZBMBODWUSVTDXJCPJMYOKQQBODSGPYHPZUR" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="156dp"
-                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-                android:id="@+id/imageView"
-                android:scaleType="center"
-                android:adjustViewBounds="false"
-                android:cropToPadding="false" />
 
         </LinearLayout>
 
