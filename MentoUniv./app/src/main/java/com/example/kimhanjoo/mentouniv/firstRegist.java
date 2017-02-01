@@ -159,6 +159,12 @@ public class firstRegist extends BaseActivity {
                     edname.requestFocus();
                     return;
                 }
+                //닉네임 입력 확인
+                if(ednickname.getText().toString().length()==0){
+                    Toast.makeText(firstRegist.this, "닉네임을 입력하세요!", Toast.LENGTH_SHORT).show();
+                    ednickname.requestFocus();
+                    return;
+                }
 
 
                 // 대학교 선택 확인

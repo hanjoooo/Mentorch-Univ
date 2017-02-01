@@ -101,7 +101,7 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="156dp"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
                 android:id="@+id/imageView"
                 android:scaleType="center"
@@ -109,6 +109,21 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
                 android:cropToPadding="false" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:id="@+id/textView3" />
+
+        <Button
+            android:text="문제 등록"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:id="@+id/btproblem" />
 
     </LinearLayout>
 

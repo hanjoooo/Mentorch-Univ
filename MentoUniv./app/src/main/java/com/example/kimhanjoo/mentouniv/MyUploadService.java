@@ -20,7 +20,7 @@ import com.google.firebase.storage.UploadTask;
 /**
  * Service to handle uploading files to Firebase Storage.
  */
-public class MyUploadService extends MyBaseTaskService {
+public class MyUploadService extends MyBaseTaskService{
 
     private static final String TAG = "MyUploadService";
 

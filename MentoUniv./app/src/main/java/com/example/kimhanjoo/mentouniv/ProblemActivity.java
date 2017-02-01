@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
@@ -38,6 +40,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
@@ -50,6 +54,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private static final String TAG = "Storage#MainActivity";
 
     private static final int RC_TAKE_PICTURE = 101;
+    private static final int PICK_FROM_ALBUM =55;
 
     private static final String KEY_FILE_URI = "key_file_uri";
     private static final String KEY_DOWNLOAD_URL = "key_download_url";
@@ -75,6 +80,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     DatabaseReference mConditionRef = mRootRef.child("photos");
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
+    DatabaseReference mchild2Ref;
+    DatabaseReference mchild3Ref;
+    DatabaseReference mchild4Ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
 
         // Click listeners
         findViewById(R.id.button_camera).setOnClickListener(this);
+        findViewById(R.id.btproblem).setOnClickListener(this);
 
 
         // Restore instance state
@@ -184,7 +193,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
-        if (requestCode == RC_TAKE_PICTURE) {
+       /* if (requestCode == RC_TAKE_PICTURE) {
             if (resultCode == RESULT_OK) {
                 mFileUri = data.getData();
 
@@ -197,7 +206,36 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "Taking picture failed.", Toast.LENGTH_SHORT).show();
             }
         }
+        */
+        if(requestCode==PICK_FROM_ALBUM){
+            mFileUri=data.getData();
+            if(resultCode==RESULT_OK)
+            {
+                try {
+                    //Uri에서 이미지 이름을 얻어온다.
+                   // String name_Str = getImageNameToUri(data.getData());
+                    //이미지 데이터를 비트맵으로 받아온다.
+                    Bitmap image_bitmap 	= MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    //배치해놓은 ImageView에 set
+                    image.setImageBitmap(image_bitmap);
+
+                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
+
+
 
     private void uploadFromUri(Uri fileUri) {
         Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
@@ -228,10 +266,20 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private void launchCamera() {
         Log.d(TAG, "launchCamera");
 
+        if (mFileUri != null) {
+            uploadFromUri(mFileUri);
+        } else {
+            Log.w(TAG, "File URI is null");
+        }
+    }
+    private void localCamera() {
+        Log.d(TAG, "launchCamera");
+
         // Pick an image from storage
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, RC_TAKE_PICTURE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+        findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
     }
 
 
@@ -257,18 +305,22 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             ((TextView) findViewById(R.id.picture_download_uri))
                     .setText(mDownloadUrl.toString());
 
-
             mchildRef = mConditionRef.child(user.getUid());
             sdfNow = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
             String time = sdfNow.format(new Date(System.currentTimeMillis()));
             mchild1Ref = mchildRef.child(time);
-            mchild1Ref.setValue(mDownloadUrl.toString());
+            mchild2Ref = mchild1Ref.child("사진");
+            mchild3Ref = mchild1Ref.child("제목");
+            mchild4Ref = mchild1Ref.child("내용");
+            mchild2Ref.setValue(mDownloadUrl.toString());
+            mchild3Ref.setValue(edProTitle.getText().toString());
+            mchild4Ref.setValue(edProMain.getText().toString());
             findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
 
         } else {
             ((TextView) findViewById(R.id.picture_download_uri))
                     .setText(null);
-            findViewById(R.id.layout_download).setVisibility(View.GONE);
+            //findViewById(R.id.layout_download).setVisibility(View.GONE);
         }
     }
 
@@ -320,7 +372,16 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.button_camera) {
+            localCamera();
+        }
+        else if(i==R.id.btproblem){
+            if( edProTitle.getText().toString().length() == 0 ) {
+                Toast.makeText(ProblemActivity.this, "문제제목을 입력하세요!", Toast.LENGTH_SHORT).show();
+                edProTitle.requestFocus();
+                return;
+            }
             launchCamera();
+            Toast.makeText(ProblemActivity.this, "문제를 등록하였습니다!", Toast.LENGTH_SHORT).show();
         }
     }
     private void signOut() {
@@ -339,5 +400,23 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         // be available.
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
 
+    }
+
+
+
+
+
+    public String getImageNameToUri(Uri data)
+    {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+
+        String imgPath = cursor.getString(column_index);
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/")+1);
+
+        return imgName;
     }
 }
