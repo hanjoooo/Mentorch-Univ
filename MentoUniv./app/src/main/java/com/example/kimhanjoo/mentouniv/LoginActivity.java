@@ -112,12 +112,13 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 if (user != null) {
                     // User is signed in
                     mchildRef = mConditionRef.child(user.getUid());
-                    mchild2Ref = mchildRef.child("이름");
+                    mchild2Ref = mchildRef.child("닉네임");
                     mchild2Ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String txt = dataSnapshot.getValue(String.class);
                             if(txt==null){
+                                Toast.makeText(LoginActivity.this, "처음이시군요~~.", Toast.LENGTH_SHORT).show();
                                 finish();
                                 Intent intent = new Intent(getApplicationContext(),firstRegist.class);
                                 startActivity(intent);

@@ -40,6 +40,7 @@ public class RegistActivity extends BaseActivity {
     private EditText etPassword;
     private EditText etPasswordConfirm;
     private EditText edname;
+    private EditText ednickname;
     private Button btnDone;
     private Button btnCancel;
     private FirebaseAuth mAuth;
@@ -57,6 +58,7 @@ public class RegistActivity extends BaseActivity {
     DatabaseReference mchild4Ref;
     DatabaseReference mchild5Ref;
     DatabaseReference mchild6Ref;
+    DatabaseReference mchild7Ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class RegistActivity extends BaseActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
         edname =(EditText) findViewById(R.id.edname);
+        ednickname=(EditText)findViewById(R.id.nickname);
         btnDone = (Button) findViewById(R.id.btnDone);
         btnCancel = (Button) findViewById(R.id.btnCancel);
         mAuth = FirebaseAuth.getInstance();
@@ -213,8 +216,12 @@ public class RegistActivity extends BaseActivity {
                     edname.requestFocus();
                     return;
                 }
-
-
+                //닉네임 입력 확인
+                if(ednickname.getText().toString().length()==0){
+                    Toast.makeText(RegistActivity.this, "닉네임을 입력하세요!", Toast.LENGTH_SHORT).show();
+                    ednickname.requestFocus();
+                    return;
+                }
                 // 대학교 선택 확인
 
 
@@ -349,6 +356,7 @@ public class RegistActivity extends BaseActivity {
                             mchild4Ref.setValue(rpduf);
                             mchild5Ref.setValue(gkrrhk);
                             mchild6Ref.setValue(grade);
+                            mchild7Ref.setValue(ednickname.getText().toString());
                             signOut();
                             finish();
                         }
@@ -391,6 +399,7 @@ public class RegistActivity extends BaseActivity {
             mchild4Ref = mchildRef.child("계열");
             mchild5Ref = mchildRef.child("분야");
             mchild6Ref = mchildRef.child("학년");
+            mchild7Ref = mchildRef.child("닉네임");
 
 
 

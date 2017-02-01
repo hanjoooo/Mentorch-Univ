@@ -10,20 +10,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.kimhanjoo.mentouniv.profileActivity">
 
-    <TextView
-        android:text="TextView"
+    <Button
+        android:text="홈"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:id="@+id/button6"
+        android:layout_marginBottom="9dp"
+        android:background="#039BE5"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="닉네임"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:id="@+id/nickname"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="학과"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28dp"
         android:id="@+id/gkrrhk"
         android:layout_below="@+id/rpduf"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="TextView"
+        android:text="계열"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="28dp"
         android:id="@+id/rpduf"
         android:layout_below="@+id/universe"
         android:layout_alignParentStart="true" />
@@ -40,38 +59,96 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="TextView"
+        android:text="학교"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:id="@+id/email"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="28dp"
         android:id="@+id/universe"
         android:layout_below="@+id/name"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="TextView"
+        android:text="학년"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:id="@+id/name"
-        android:layout_below="@+id/email"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="28dp"
         android:id="@+id/grade"
         android:layout_below="@+id/gkrrhk"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="이름"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28dp"
+        android:id="@+id/name"
+        android:layout_below="@+id/nickname"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ednickname"
+        android:layout_alignBaseline="@+id/nickname"
+        android:layout_alignBottom="@+id/nickname"
+        android:layout_alignStart="@+id/edname" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/edname"
+        android:layout_below="@+id/nickname"
+        android:layout_toEndOf="@+id/home" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/name"
+        android:layout_alignStart="@+id/edname"
+        android:id="@+id/eduniverse" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/universe"
+        android:layout_alignStart="@+id/eduniverse"
+        android:id="@+id/edrpduf" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/rpduf"
+        android:layout_alignStart="@+id/edrpduf"
+        android:id="@+id/edgkrrhk" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/gkrrhk"
+        android:layout_alignStart="@+id/edgkrrhk"
+        android:id="@+id/edgrade" />
+
+    <Button
+        android:text="수정"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/change"
+        android:background="#039BE5"
+        android:textColor="@color/colorAccent"
+        android:layout_alignBaseline="@+id/button6"
+        android:layout_alignBottom="@+id/button6"
+        android:layout_toEndOf="@+id/button6"
+        android:layout_marginStart="51dp" />
 </RelativeLayout>

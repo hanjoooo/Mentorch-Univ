@@ -35,6 +35,7 @@ package com.example.kimhanjoo.mentouniv;
 public class firstRegist extends BaseActivity {
 
     private EditText edname;
+    private EditText ednickname;
     private Button btnDone;
     private Button btnCancel;
     private FirebaseAuth mAuth;
@@ -42,7 +43,6 @@ public class firstRegist extends BaseActivity {
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EmailPassword";
-    private int x=0;
 
 
     DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -54,12 +54,13 @@ public class firstRegist extends BaseActivity {
     DatabaseReference mchild5Ref;
     DatabaseReference mchild6Ref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_regist);
 
-
+        ednickname = (EditText)findViewById(R.id.ednickname);
         edname =(EditText) findViewById(R.id.edname);
         btnDone = (Button) findViewById(R.id.btnDone);
         btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -141,7 +142,10 @@ public class firstRegist extends BaseActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(firstRegist.this, "에러 발생!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 finish();
+                startActivity(intent);
             }
         });
         btnDone.setOnClickListener(new View.OnClickListener() {
@@ -168,8 +172,7 @@ public class firstRegist extends BaseActivity {
 
                 // [END create_user_with_email]
                 // 자신을 호출한 Activity로 데이터를 보낸다.
-
-
+                mchild1Ref.setValue(ednickname.getText().toString());
                 mchild2Ref.setValue(edname.getText().toString());
                 mchild3Ref.setValue(univers);
                 mchild4Ref.setValue(rpduf);
@@ -240,7 +243,6 @@ public class firstRegist extends BaseActivity {
 
     protected void onStart(){
         super.onStart();
-        final int[] can = {1};
         mAuth.addAuthStateListener(mAuthListener);
 
         mConditionRef.addValueEventListener(new ValueEventListener() {
@@ -268,6 +270,7 @@ public class firstRegist extends BaseActivity {
         hideProgressDialog();
         if (user != null) {
             mchildRef = mConditionRef.child(user.getUid());
+            mchild1Ref = mchildRef.child("닉네임");
             mchild2Ref = mchildRef.child("이름");
             mchild3Ref = mchildRef.child("대학교");
             mchild4Ref = mchildRef.child("계열");

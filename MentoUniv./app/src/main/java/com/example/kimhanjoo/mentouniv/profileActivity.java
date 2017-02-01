@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,23 +19,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class profileActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class profileActivity extends BaseActivity {
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
+
     // [END declare_auth_listener]
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
 
-    TextView email;
+    TextView nickname;
     TextView name;
     TextView universe;
     TextView grade;
     TextView rpduf;
     TextView gkrrhk;
+
+    EditText ednickname;
+    EditText edname;
+    EditText eduniverse;
+    EditText edrpduf;
+    EditText edgkrrhk;
+    EditText edgrade;
+
     Button home;
+    Button btchange;
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
     DatabaseReference mchild2Ref;
@@ -41,25 +55,37 @@ public class profileActivity extends AppCompatActivity {
     DatabaseReference mchild4Ref;
     DatabaseReference mchild5Ref;
     DatabaseReference mchild6Ref;
+
+    String compare;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        email = (TextView)findViewById(R.id.email);
+        nickname = (TextView)findViewById(R.id.nickname);
         name = (TextView)findViewById(R.id.name);
         universe = (TextView)findViewById(R.id.universe);
         grade = (TextView)findViewById(R.id.grade);
         mAuth = FirebaseAuth.getInstance();
-        home =(Button)findViewById(R.id.home);
         rpduf = (TextView)findViewById(R.id.rpduf);
         gkrrhk = (TextView)findViewById(R.id.gkrrhk);
+
+        ednickname=(EditText)findViewById(R.id.ednickname);
+        edname=(EditText)findViewById(R.id.edname);
+        eduniverse =(EditText)findViewById(R.id.eduniverse);
+        edrpduf = (EditText)findViewById(R.id.edrpduf);
+        edgkrrhk=(EditText)findViewById(R.id.edgkrrhk);
+        edgrade=(EditText)findViewById(R.id.edgrade);
+
+        home =(Button)findViewById(R.id.home);
+        btchange =(Button)findViewById(R.id.change);
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 mchildRef = mConditionRef.child(user.getUid());
-                mchild1Ref = mchildRef.child("이메일");
+                mchild1Ref = mchildRef.child("닉네임");
                 mchild2Ref = mchildRef.child("이름");
                 mchild3Ref = mchildRef.child("대학교");
                 mchild4Ref = mchildRef.child("계열");
@@ -70,7 +96,8 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        email.setText(txt);
+                        ednickname.setText(txt);
+                        compare=txt;
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -79,7 +106,7 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        name.setText(txt);
+                        edname.setText(txt);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -88,7 +115,7 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        universe.setText(txt);
+                        eduniverse.setText(txt);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -97,7 +124,7 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        rpduf.setText(txt);
+                        edrpduf.setText(txt);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -106,7 +133,7 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        gkrrhk.setText(txt);
+                        edgkrrhk.setText(txt);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -116,22 +143,59 @@ public class profileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String txt = dataSnapshot.getValue(String.class);
-                        grade.setText(txt);
+                        edgrade.setText(txt);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
                 });
+
+                btchange.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showProgressDialog();
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object txt = dataSnapshot.getValue(Object.class);
+
+                                if(!txt.toString().contains(ednickname.getText().toString()) ||
+                                        compare.equals(ednickname.getText().toString())) {
+                                    Toast.makeText(profileActivity.this, "프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                    mchild1Ref.setValue(ednickname.getText().toString());
+                                    mchild2Ref.setValue(edname.getText().toString());
+                                    mchild3Ref.setValue(eduniverse.getText().toString());
+                                    mchild4Ref.setValue(edrpduf.getText().toString());
+                                    mchild5Ref.setValue(edgkrrhk.getText().toString());
+                                    mchild6Ref.setValue(edgrade.getText().toString());
+
+                                }
+                                else{
+                                    Toast.makeText(profileActivity.this, "이미 있는 닉네임입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(profileActivity.this, "데이터 오류", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        hideProgressDialog();
+                    }
+                });
             }
+
+
         };
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
             }
         });
+
+
+
 
 
     }

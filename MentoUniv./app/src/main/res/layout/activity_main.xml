@@ -18,12 +18,6 @@
         <requestFocus />
     </EditText>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="450dp"
-        android:layout_below="@+id/search" />
-
     <Button
         android:text="홈"
         android:layout_width="wrap_content"
@@ -70,4 +64,12 @@
         android:layout_alignBottom="@+id/button3"
         android:layout_toEndOf="@+id/button3"
         android:layout_marginStart="13dp" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="450dp"
+        android:layout_above="@+id/button3"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="9dp" />
 </RelativeLayout>

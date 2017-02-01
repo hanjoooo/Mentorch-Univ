@@ -27,9 +27,42 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
             tools:visibility="visible">
 
             <TextView
+                android:text="문제 제목"
+                android:textColor="@color/default2"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:textSize="23dp"
+                android:id="@+id/protitle" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="10자이내 작성"
+                android:ems="10"
+                android:id="@+id/edprotitle" />
+
+            <TextView
+                android:text="문제 내용"
+                android:textColor="@color/default2"
+                android:layout_width="121dp"
+                android:layout_height="wrap_content"
+                android:textSize="23dp"
+                android:id="@+id/promain" />
+
+            <EditText
+                android:layout_width="324dp"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:hint="문제 상세내용 작성바람"
+                android:ems="10"
+                android:id="@+id/edpromain" />
+
+            <TextView
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/default2"
                 android:layout_marginBottom="@dimen/margin_1"
                 android:text="@string/take_photo_prompt" />
 
@@ -37,6 +70,8 @@ tools:context="com.example.kimhanjoo.mentouniv.ProblemActivity">
                 android:id="@+id/button_camera"
                 android:layout_width="@dimen/standard_field_width"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/camera_button_text" />
 
         </LinearLayout>

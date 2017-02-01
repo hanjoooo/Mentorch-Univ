@@ -33,10 +33,18 @@ tools:context="com.example.kimhanjoo.mentouniv.RegistActivity"
     android:layout_height="wrap_content"
     android:inputType="textPassword"
     android:ems="10"
-    android:hint="Password"
+    android:hint="Password 확인"
     android:id="@+id/etPasswordConfirm" />
 
-<EditText
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="닉네임"
+        android:ems="10"
+        android:id="@+id/nickname" />
+
+    <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ems="10"

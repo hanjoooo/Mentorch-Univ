@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private Uri mFileUri = null;
 
     private GoogleApiClient mGoogleApiClient;
+    TextView proTitle;
+    TextView proMain;
+    EditText edProTitle;
+    EditText edProMain;
     ImageView image;
 
 
@@ -77,6 +82,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        proTitle = (TextView)findViewById(R.id.protitle);
+        proMain = (TextView)findViewById(R.id.promain);
+        edProTitle = (EditText)findViewById(R.id.edprotitle);
+        edProMain = (EditText)findViewById(R.id.edpromain);
 
         image = (ImageView)findViewById(R.id.imageView);
 
