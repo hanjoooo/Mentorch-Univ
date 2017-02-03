@@ -21,6 +21,12 @@ package com.example.kimhanjoo.mentouniv;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.google.android.gms.auth.api.Auth;
+        import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+        import com.google.android.gms.common.ConnectionResult;
+        import com.google.android.gms.common.api.GoogleApiClient;
+        import com.google.android.gms.common.api.ResultCallback;
+        import com.google.android.gms.common.api.Status;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.AuthResult;
@@ -32,7 +38,7 @@ package com.example.kimhanjoo.mentouniv;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
 
-public class firstRegist extends BaseActivity {
+public class firstRegist extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText edname;
     private EditText ednickname;
@@ -42,6 +48,7 @@ public class firstRegist extends BaseActivity {
 
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "EmailPassword";
 
 
@@ -69,6 +76,15 @@ public class firstRegist extends BaseActivity {
         final Spinner spinner2 = (Spinner)findViewById(R.id.spinner2);
         final Spinner spinner3 = (Spinner)findViewById(R.id.spinner3);
         final Spinner spinner4 = (Spinner)findViewById(R.id.spinner4);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
 
         String[] optionLavala = getResources().getStringArray(R.array.spinnerArray1);
@@ -142,9 +158,9 @@ public class firstRegist extends BaseActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(firstRegist.this, "에러 발생!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 finish();
+                signOut();
                 startActivity(intent);
             }
         });
@@ -286,5 +302,25 @@ public class firstRegist extends BaseActivity {
         } else {
 
         }
+    }
+    private void signOut() {
+        showProgressDialog();
+        mAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+                    }
+                });
+        hideProgressDialog();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+
     }
 }

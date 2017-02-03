@@ -62,6 +62,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
+    private BackPressCloseHandler backPressCloseHandler;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
     DatabaseReference mchildRef;
@@ -140,6 +141,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 }
                 // ...
 
+
             }
         };
 
@@ -158,6 +160,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 startActivity(intent);
             }
         });
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
     }
 
@@ -299,6 +302,11 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 
 

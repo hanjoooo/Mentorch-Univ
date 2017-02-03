@@ -3,10 +3,12 @@ package com.example.kimhanjoo.mentouniv;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -23,6 +25,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,12 +40,20 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
+    private BackPressCloseHandler backPressCloseHandler;
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("photos");
+    DatabaseReference mchildRef;
+    DatabaseReference mchild1Ref;
+    DatabaseReference mchild2Ref;
+    DatabaseReference mchild3Ref;
     ListView list;
     ListViewAdapter adapter;
     EditText editsearch;
     String[] rank;
     String[] country;
     String[] population;
+    String title;
 
     Button btprofile;
     Button btlogout;
@@ -53,6 +68,23 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         mlayout = (RelativeLayout) findViewById(R.id.activity_main);
         mlayout.setBackgroundColor(Color.rgb(148,210,238));
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+                mConditionRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                       title = dataSnapshot.getValue().toString();
+                        Log.v("ppp","시발닥");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        };
         // Generate sample data
         rank = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
@@ -145,6 +177,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
         });
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
 
     }
 
@@ -162,6 +196,19 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 });
         hideProgressDialog();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -170,4 +217,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
 
     }
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
+    }
+
 }

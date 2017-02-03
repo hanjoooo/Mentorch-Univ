@@ -318,7 +318,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             mchildRef = mConditionRef.child(user.getUid());
             sdfNow = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
             String time = sdfNow.format(new Date(System.currentTimeMillis()));
-            mchild1Ref = mchildRef.child(time);
+            mchild1Ref =  mchildRef.child(time);
             mchild2Ref = mchild1Ref.child("사진");
             mchild3Ref = mchild1Ref.child("제목");
             mchild4Ref = mchild1Ref.child("내용");
