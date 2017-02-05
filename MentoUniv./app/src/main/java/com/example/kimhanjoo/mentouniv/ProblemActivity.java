@@ -325,6 +325,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             mchild2Ref.setValue(mDownloadUrl.toString());
             mchild3Ref.setValue(edProTitle.getText().toString());
             mchild4Ref.setValue(edProMain.getText().toString());
+            mFileUri=null;
+            edProTitle.setText(null);
+            edProMain.setText(null);
             findViewById(R.id.layout_download).setVisibility(View.VISIBLE);
 
         } else {

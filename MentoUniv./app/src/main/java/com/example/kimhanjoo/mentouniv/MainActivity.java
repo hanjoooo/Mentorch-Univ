@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -59,6 +61,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     Button btlogout;
     Button btproblem;
 
+
     ArrayList<WorldPopulation> arraylist = new ArrayList<WorldPopulation>();
 
     @Override
@@ -102,6 +105,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         btlogout = (Button) findViewById(R.id.logout);
         btprofile=(Button)findViewById(R.id.profile);
         btproblem = (Button)findViewById(R.id.problem);
+
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -176,14 +180,30 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 startActivity(intent);
             }
         });
-
         backPressCloseHandler = new BackPressCloseHandler(this);
 
 
     }
 
     // Not using options menu in this tutorial
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == R.id.action_logout) {
+            signOut();
+            finish();
+            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
     private void signOut() {
         showProgressDialog();
         mAuth.signOut();
