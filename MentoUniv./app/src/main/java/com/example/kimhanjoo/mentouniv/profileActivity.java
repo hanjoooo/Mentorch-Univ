@@ -1,6 +1,7 @@
 package com.example.kimhanjoo.mentouniv;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +26,8 @@ import java.util.ArrayList;
 public class profileActivity extends BaseActivity {
     // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
-    // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    // [END declare_auth_listener]
+    private RelativeLayout mlayout;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
 
@@ -39,14 +38,14 @@ public class profileActivity extends BaseActivity {
     TextView rpduf;
     TextView gkrrhk;
 
-    EditText ednickname;
-    EditText edname;
-    EditText eduniverse;
-    EditText edrpduf;
-    EditText edgkrrhk;
-    EditText edgrade;
+    TextView ednickname;
+    TextView edname;
+    TextView eduniverse;
+    TextView edrpduf;
+    TextView edgkrrhk;
+    TextView edgrade;
 
-    Button home;
+
     Button btchange;
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
@@ -69,15 +68,17 @@ public class profileActivity extends BaseActivity {
         rpduf = (TextView)findViewById(R.id.rpduf);
         gkrrhk = (TextView)findViewById(R.id.gkrrhk);
 
-        ednickname=(EditText)findViewById(R.id.ednickname);
-        edname=(EditText)findViewById(R.id.edname);
-        eduniverse =(EditText)findViewById(R.id.eduniverse);
-        edrpduf = (EditText)findViewById(R.id.edrpduf);
-        edgkrrhk=(EditText)findViewById(R.id.edgkrrhk);
-        edgrade=(EditText)findViewById(R.id.edgrade);
+        ednickname=(TextView)findViewById(R.id.ednickname);
+        edname=(TextView)findViewById(R.id.edname);
+        eduniverse =(TextView)findViewById(R.id.eduniverse);
+        edrpduf = (TextView)findViewById(R.id.edrpduf);
+        edgkrrhk=(TextView)findViewById(R.id.edgkrrhk);
+        edgrade=(TextView)findViewById(R.id.edgrade);
 
-        home =(Button)findViewById(R.id.home);
         btchange =(Button)findViewById(R.id.change);
+
+        mlayout = (RelativeLayout) findViewById(R.id.activity_profile);
+        mlayout.setBackgroundColor(Color.rgb(148,210,238));
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -152,6 +153,7 @@ public class profileActivity extends BaseActivity {
                 btchange.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /*
                         showProgressDialog();
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -180,6 +182,9 @@ public class profileActivity extends BaseActivity {
                         });
 
                         hideProgressDialog();
+                        */
+                        Intent intent = new Intent(getApplicationContext(),ChangeProfileActivity.class);
+                        startActivity(intent);
                     }
                 });
             }
@@ -187,12 +192,6 @@ public class profileActivity extends BaseActivity {
 
         };
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
 
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_bell"
+            android:title="알림"
+            android:checkable="false" />
+
+        <item
+            android:id="@+id/user_help"
+            android:title="도움말"
+            android:checkable="false" />
+    </group>
+
+    <item android:title="커뮤니티">
+        <menu>
+            <item
+                android:id="@+id/user_setting"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="계정 설정" />
+            <item
+                android:id="@+id/action_logout"
+                android:icon="@drawable/ic_menu_share"
+                android:title="로그 아웃" />
+        </menu>
+    </item>
+
+</menu>

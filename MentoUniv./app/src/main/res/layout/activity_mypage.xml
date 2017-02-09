@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_mypage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.kimhanjoo.mentouniv.MypageActivity">
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/grid"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="5px"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="계정 관리"
+            android:textSize="20dp"
+            android:background="@color/focused1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+
+        <Button
+            android:text="프로필 내용 수정"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/profile_change" />
+
+        <Button
+            android:text="프로필 이미지 변경"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_change" />
+
+        <Button
+            android:text="로그아웃"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/logout" />
+
+        <TextView
+            android:text="질문 관리"
+            android:textSize="20dp"
+            android:background="@color/focused1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4" />
+
+        <Button
+            android:text="내 질문 등록"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pr_upload" />
+
+        <Button
+            android:text="내 질문 관리"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pr_manage" />
+
+        <Button
+            android:text="내 질문 기록"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pr_record" />
+
+        <TextView
+            android:text="답변 관리"
+            android:textSize="20dp"
+            android:background="@color/focused1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5" />
+
+        <Button
+            android:text="내 답변 관리"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/aw_manage" />
+
+        <Button
+            android:text="내 답변 기록"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/aw_record" />
+
+        <TextView
+            android:text="스크랩북"
+            android:textSize="20dp"
+            android:background="@color/focused1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6" />
+
+        <Button
+            android:text="스크랩"
+            android:textSize="15dp"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrapt" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+    <GridLayout
+        android:id="@id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="112dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+            android:id="@+id/imageView2"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="267dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="닉네임"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26dp"
+                android:id="@+id/nickname" />
+
+            <TextView
+                android:text="이름"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:id="@+id/name" />
+
+            <TextView
+                android:text="대학교"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+
+                android:id="@+id/universe" />
+
+            <TextView
+                android:text="계열/학과/학년"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:id="@+id/detail" />
+        </LinearLayout>
+
+    </GridLayout>
+
+</RelativeLayout>

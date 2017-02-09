@@ -360,12 +360,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             mProgressDialog.dismiss();
         }
     }
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -379,7 +380,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             return super.onOptionsItemSelected(item);
         }
+        return true;
     }
+    */
 
     @Override
     public void onClick(View v) {

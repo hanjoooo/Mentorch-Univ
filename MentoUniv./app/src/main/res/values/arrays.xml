@@ -18,7 +18,7 @@
         <item>경영학과</item>
         <item>재료학과</item>
         <item>기계공학</item>
-        <item>전자공</item>
+        <item>전자공학</item>
         <item>소프트웨어</item>
     </string-array>
     <string-array name="spinnerArray4">

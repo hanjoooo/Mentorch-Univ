@@ -31,9 +31,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,7 +54,15 @@
             android:name=".MyUploadService"
             android:exported="false" />
 
-        <activity android:name=".firstRegist"></activity>
+        <activity android:name=".firstRegist" />
+        <activity android:name=".ChangeProfileActivity" />
+        <activity android:name=".MypageActivity" />
+        <activity android:name=".RealMainActivity" />
+        <activity android:name=".CommunityActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

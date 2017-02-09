@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="com.example.kimhanjoo.mentouniv.MainActivity">
 
     <EditText
@@ -18,58 +19,14 @@
         <requestFocus />
     </EditText>
 
-    <Button
-        android:text="홈"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:layout_marginBottom="9dp"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="로그아웃"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logout"
-        android:layout_marginStart="8dp"
-        android:layout_alignBottom="@+id/profile"
-        android:layout_alignTop="@+id/profile"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="프로필"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/profile"
-        android:layout_marginStart="10dp"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignBaseline="@+id/problem"
-        android:layout_alignBottom="@+id/problem"
-        android:layout_toEndOf="@+id/problem" />
-
-    <Button
-        android:text="질문"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/problem"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toEndOf="@+id/button3"
-        android:layout_marginStart="13dp" />
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="450dp"
-        android:layout_above="@+id/button3"
+        android:layout_below="@+id/search"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="9dp" />
+        android:layout_alignParentBottom="true" />
+
+
 </RelativeLayout>

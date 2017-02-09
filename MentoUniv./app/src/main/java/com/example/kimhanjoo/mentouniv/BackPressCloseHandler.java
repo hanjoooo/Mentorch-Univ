@@ -27,9 +27,6 @@ public class BackPressCloseHandler {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             toast.cancel();
 
-            Intent t = new Intent(activity, LoginActivity.class);
-            activity.startActivity(t);
-
             activity.moveTaskToBack(true);
             activity.finish();
             android.os.Process.killProcess(android.os.Process.myPid());

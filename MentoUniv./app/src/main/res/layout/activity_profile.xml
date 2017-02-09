@@ -10,17 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.kimhanjoo.mentouniv.profileActivity">
 
-    <Button
-        android:text="홈"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button6"
-        android:layout_marginBottom="9dp"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:text="닉네임"
         android:layout_width="wrap_content"
@@ -36,7 +25,8 @@
         android:textSize="28dp"
         android:id="@+id/gkrrhk"
         android:layout_below="@+id/rpduf"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/rpduf" />
 
     <TextView
         android:text="계열"
@@ -45,18 +35,8 @@
         android:textSize="28dp"
         android:id="@+id/rpduf"
         android:layout_below="@+id/universe"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="홈"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/home"
-        android:layout_marginBottom="9dp"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/universe" />
 
     <TextView
         android:text="학교"
@@ -65,7 +45,8 @@
         android:textSize="28dp"
         android:id="@+id/universe"
         android:layout_below="@+id/name"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/name" />
 
     <TextView
         android:text="학년"
@@ -74,7 +55,8 @@
         android:textSize="28dp"
         android:id="@+id/grade"
         android:layout_below="@+id/gkrrhk"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/gkrrhk" />
 
     <TextView
         android:text="이름"
@@ -83,72 +65,72 @@
         android:textSize="28dp"
         android:id="@+id/name"
         android:layout_below="@+id/nickname"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/ednickname" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/ednickname"
-        android:layout_alignBaseline="@+id/nickname"
-        android:layout_alignBottom="@+id/nickname"
-        android:layout_alignStart="@+id/edname" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/edname"
-        android:layout_below="@+id/nickname"
-        android:layout_toEndOf="@+id/home" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:textSize="25dp"
         android:ems="10"
         android:layout_below="@+id/name"
         android:layout_alignStart="@+id/edname"
         android:id="@+id/eduniverse" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:textSize="25dp"
         android:ems="10"
         android:layout_below="@+id/universe"
         android:layout_alignStart="@+id/eduniverse"
         android:id="@+id/edrpduf" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:textSize="25dp"
         android:ems="10"
         android:layout_below="@+id/rpduf"
         android:layout_alignStart="@+id/edrpduf"
         android:id="@+id/edgkrrhk" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:textSize="25dp"
         android:ems="10"
         android:layout_below="@+id/gkrrhk"
         android:layout_alignStart="@+id/edgkrrhk"
         android:id="@+id/edgrade" />
 
-    <Button
-        android:text="수정"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:ems="10"
+        android:id="@+id/edname"
+        android:layout_below="@+id/nickname"
+        android:layout_alignStart="@+id/ednickname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:ems="10"
+        android:id="@+id/ednickname"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/nickname"
+        android:layout_marginStart="18dp" />
+
+    <Button
+        android:text="프로필 수정하기"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
         android:id="@+id/change"
-        android:background="#039BE5"
-        android:textColor="@color/colorAccent"
-        android:layout_alignBaseline="@+id/button6"
-        android:layout_alignBottom="@+id/button6"
-        android:layout_toEndOf="@+id/button6"
-        android:layout_marginStart="51dp" />
+        android:background="@color/colorPrimaryDark"
+        android:layout_below="@+id/grade"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="6dp" />
+
 </RelativeLayout>

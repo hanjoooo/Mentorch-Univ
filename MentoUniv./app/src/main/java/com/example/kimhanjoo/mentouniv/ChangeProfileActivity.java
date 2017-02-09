@@ -1,47 +1,48 @@
 package com.example.kimhanjoo.mentouniv;
 
-        import android.content.Intent;
-        import android.graphics.Color;
-        import android.os.Bundle;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.LinearLayoutCompat;
-        import android.text.Editable;
-        import android.text.TextUtils;
-        import android.text.TextWatcher;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.LinearLayout;
-        import android.widget.RelativeLayout;
-        import android.widget.Spinner;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.android.gms.auth.api.Auth;
-        import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.api.GoogleApiClient;
-        import com.google.android.gms.common.api.ResultCallback;
-        import com.google.android.gms.common.api.Status;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class firstRegist extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class ChangeProfileActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText edname;
     private EditText ednickname;
+
     private Button btnDone;
     private Button btnCancel;
     private FirebaseAuth mAuth;
@@ -60,12 +61,13 @@ public class firstRegist extends BaseActivity implements GoogleApiClient.OnConne
     DatabaseReference mchild4Ref;
     DatabaseReference mchild5Ref;
     DatabaseReference mchild6Ref;
+    String compare;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_regist);
+        setContentView(R.layout.activity_change_profile);
 
         ednickname = (EditText)findViewById(R.id.ednickname);
         edname =(EditText) findViewById(R.id.edname);
@@ -138,90 +140,125 @@ public class firstRegist extends BaseActivity implements GoogleApiClient.OnConne
             }
         });
 
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // [START_EXCLUDE]
-                updateUI(user);
-                // [END_EXCLUDE]
+
+                mchildRef = mConditionRef.child(user.getUid());
+                mchild1Ref = mchildRef.child("닉네임");
+                mchild2Ref = mchildRef.child("이름");
+                mchild3Ref = mchildRef.child("대학교");
+                mchild4Ref = mchildRef.child("계열");
+                mchild5Ref = mchildRef.child("분야");
+                mchild6Ref = mchildRef.child("학년");
+
+                mchild1Ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String txt = dataSnapshot.getValue(String.class);
+                        ednickname.setText(txt);
+                        compare=txt;
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+                mchild2Ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String txt = dataSnapshot.getValue(String.class);
+                        edname.setText(txt);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
+                btnDone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if( edname.getText().toString().length() == 0 ) {
+                            Toast.makeText(ChangeProfileActivity.this, "이름 입력하세요!", Toast.LENGTH_SHORT).show();
+                            edname.requestFocus();
+                            return;
+                        }
+                        //닉네임 입력 확인
+                        if(ednickname.getText().toString().length()==0){
+                            Toast.makeText(ChangeProfileActivity.this, "닉네임을 입력하세요!", Toast.LENGTH_SHORT).show();
+                            ednickname.requestFocus();
+                            return;
+                        }
+                        //
+                        String univers = spinner1.getSelectedItem().toString();
+                        String rpduf = spinner2.getSelectedItem().toString();
+                        String gkrrhk = spinner3.getSelectedItem().toString();
+                        String grade = spinner4.getSelectedItem().toString();
+                        if(univers.equals("[대학교]")){
+                            Toast.makeText(ChangeProfileActivity.this, "대학교를 선택해세요!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(rpduf.equals("[계열]")){
+                            Toast.makeText(ChangeProfileActivity.this, "계열을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(gkrrhk.equals("[분야]")){
+                            Toast.makeText(ChangeProfileActivity.this, "분야를 선택해주세요!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(grade.equals("[학년]")){
+                            Toast.makeText(ChangeProfileActivity.this, "학년을 선택해주세요!", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+                        showProgressDialog();
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object txt = dataSnapshot.getValue(Object.class);
+
+                                if(!txt.toString().contains(ednickname.getText().toString()) ||
+                                        compare.equals(ednickname.getText().toString())) {
+                                    Toast.makeText(ChangeProfileActivity.this, "프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                    String univers = spinner1.getSelectedItem().toString();
+                                    String rpduf = spinner2.getSelectedItem().toString();
+                                    String gkrrhk = spinner3.getSelectedItem().toString();
+                                    String grade = spinner4.getSelectedItem().toString();
+
+
+                                    // [END create_user_with_email]
+                                    // 자신을 호출한 Activity로 데이터를 보낸다.
+                                    mchild1Ref.setValue(ednickname.getText().toString());
+                                    mchild2Ref.setValue(edname.getText().toString());
+                                    mchild3Ref.setValue(univers);
+                                    mchild4Ref.setValue(rpduf);
+                                    mchild5Ref.setValue(gkrrhk);
+                                    mchild6Ref.setValue(grade);
+                                    finish();
+
+                                }
+                                else{
+                                    Toast.makeText(ChangeProfileActivity.this, "이미 있는 닉네임입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(ChangeProfileActivity.this, "데이터 오류", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        hideProgressDialog();
+                    }
+                });
             }
+
+
         };
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 finish();
-                signOut();
-                startActivity(intent);
             }
         });
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                // 이름 입력 확인
-                if( edname.getText().toString().length() == 0 ) {
-                    Toast.makeText(firstRegist.this, "이름 입력하세요!", Toast.LENGTH_SHORT).show();
-                    edname.requestFocus();
-                    return;
-                }
-                //닉네임 입력 확인
-                if(ednickname.getText().toString().length()==0){
-                    Toast.makeText(firstRegist.this, "닉네임을 입력하세요!", Toast.LENGTH_SHORT).show();
-                    ednickname.requestFocus();
-                    return;
-                }
-
-
-                // 대학교 선택 확인
-                String univers = spinner1.getSelectedItem().toString();
-                String rpduf = spinner2.getSelectedItem().toString();
-                String gkrrhk = spinner3.getSelectedItem().toString();
-                String grade = spinner4.getSelectedItem().toString();
-                if(univers== "[대학교]"){
-                    Toast.makeText(firstRegist.this, "대학교를 선택해세요!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(rpduf=="[계열]"){
-                    Toast.makeText(firstRegist.this, "계열을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(gkrrhk=="[분야]"){
-                    Toast.makeText(firstRegist.this, "분야를 선택해주세요!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(grade=="[학년]"){
-                    Toast.makeText(firstRegist.this, "학년을 선택해주세요!", Toast.LENGTH_SHORT).show();
-                    return;
-
-                }
-
-                Intent intent = new Intent(getApplicationContext(),RealMainActivity.class);
-
-
-                // [END create_user_with_email]
-                // 자신을 호출한 Activity로 데이터를 보낸다.
-                mchild1Ref.setValue(ednickname.getText().toString());
-                mchild2Ref.setValue(edname.getText().toString());
-                mchild3Ref.setValue(univers);
-                mchild4Ref.setValue(rpduf);
-                mchild5Ref.setValue(gkrrhk);
-                mchild6Ref.setValue(grade);
-                finish();
-                startActivity(intent);
-
-            }
-        });
 
     }
 
@@ -308,13 +345,7 @@ public class firstRegist extends BaseActivity implements GoogleApiClient.OnConne
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mchildRef = mConditionRef.child(user.getUid());
-            mchild1Ref = mchildRef.child("닉네임");
-            mchild2Ref = mchildRef.child("이름");
-            mchild3Ref = mchildRef.child("대학교");
-            mchild4Ref = mchildRef.child("계열");
-            mchild5Ref = mchildRef.child("분야");
-            mchild6Ref = mchildRef.child("학년");
+
 
         } else {
 

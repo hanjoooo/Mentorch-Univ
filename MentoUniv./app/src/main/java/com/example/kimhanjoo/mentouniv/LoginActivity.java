@@ -127,7 +127,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                             else
                             {
                                 finish();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), RealMainActivity.class);
                                 startActivity(intent);
                             }
                         }
