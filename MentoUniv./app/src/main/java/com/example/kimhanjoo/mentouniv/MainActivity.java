@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -40,7 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RelativeLayout mlayout;
     private FirebaseAuth mAuth;
@@ -65,6 +66,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     //Button btlogout;
     Button btproblem;
     Button bthome;
+    Button btviewall;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
 
 
     ArrayList<WorldPopulation> arraylist = new ArrayList<WorldPopulation>();
@@ -76,6 +80,15 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
 
         mlayout = (RelativeLayout) findViewById(R.id.activity_main);
         mlayout.setBackgroundColor(Color.rgb(148,210,238));
+        btviewall = (Button)findViewById(R.id.btview);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_layout);;
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -83,13 +96,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 mConditionRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                       title = dataSnapshot.getValue().toString();
-
-                        Log.v("ppp", title);
-
-
+                       //title = dataSnapshot.getValue().toString();
+                        //Log.v("ppp", title);
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -189,6 +198,13 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
             }
         });
         */
+        btviewall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                startActivity(intent);
+            }
+        });
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
@@ -213,8 +229,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
             return true;
         }
         else if(i==R.id.user_bell){
-            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
-            startActivity(intent);
+
             return true;
         }
         else if(i==R.id.user_help){
@@ -265,4 +280,12 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
     public void onBackPressed() {
         backPressCloseHandler.onBackPressed();
     }
+
+    @Override
+    public void onRefresh() {
+        // 새로고침 코드
+        // 새로고침 완료
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
 }

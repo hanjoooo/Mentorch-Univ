@@ -75,11 +75,8 @@ public class CommunityActivity extends BaseActivity implements GoogleApiClient.O
                 mConditionRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        title = dataSnapshot.getValue().toString();
-
-                        Log.v("ppp", title);
-
-
+                        //title = dataSnapshot.getValue().toString();
+                        //Log.v("ppp", title);
                     }
 
                     @Override
@@ -165,6 +162,7 @@ public class CommunityActivity extends BaseActivity implements GoogleApiClient.O
         backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
+    /*
     // Not using options menu in this tutorial
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -186,6 +184,7 @@ public class CommunityActivity extends BaseActivity implements GoogleApiClient.O
         }
 
     }
+    */
     private void signOut() {
         showProgressDialog();
         mAuth.signOut();

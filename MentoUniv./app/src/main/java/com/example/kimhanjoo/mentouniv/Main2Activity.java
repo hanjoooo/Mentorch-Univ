@@ -42,7 +42,6 @@ public class Main2Activity extends BaseActivity implements GoogleApiClient.OnCon
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
-    private BackPressCloseHandler backPressCloseHandler;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("photos");
     DatabaseReference mchildRef;
@@ -171,8 +170,6 @@ public class Main2Activity extends BaseActivity implements GoogleApiClient.OnCon
                 // TODO Auto-generated method stub
             }
         });
-
-        backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
     @Override
@@ -181,7 +178,7 @@ public class Main2Activity extends BaseActivity implements GoogleApiClient.OnCon
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            backPressCloseHandler.onBackPressed();
+            finish();
         }
     }
 
